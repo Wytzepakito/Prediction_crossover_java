@@ -1,0 +1,20 @@
+Predicting Crossover Sites
+Dependencies:
+Usage: java Main.java [options] -g <path_to_reference> -i <path to in directory> -o <path to out directory> -r <path to Rscript installation>  
+
+Options include:
+	-sample_gene		sample from gene dense regions instead of the default random regions
+	-h					print this help message
+	-help				print this help message
+	
+Naming conventions for <path to in directory>
+
+
+
+
+
+
+
+Naming rules for <path_to_reference>
+	
+	
