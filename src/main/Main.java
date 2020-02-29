@@ -6,7 +6,8 @@ import java.io.IOException;
 public class Main {
 	private String REFERENCE_GENOME_LOCATION = "D:\\Scripts\\PredictingCrossoverSitesDataFiles\\Reference";
 	private String OUT_PATH;
-	private String IN_PATH = "D:\\Scripts\\PredictingCrossoverSitesDataFiles\\Input";;
+	private String IN_PATH = "D:\\Scripts\\PredictingCrossoverSitesDataFiles\\Input";
+	private String GENERAL_PATH = "D:\\Scripts\\PredictingCrossoverSitesDataFiles";
 	private String RSCRIPT_PATH;
 	private ArgChecker argChecker;
 	private Integer CROSS_OVER_SIZE = 5000;
@@ -42,7 +43,7 @@ public class Main {
 	}
 	
 	private void preparePositiveSets() {
-		PositiveBedPreparation positiveBedPreparation = new PositiveBedPreparation(IN_PATH, CROSS_OVER_SIZE);
+		PositiveBedPreparation positiveBedPreparation = new PositiveBedPreparation(GENERAL_PATH, CROSS_OVER_SIZE);
 		
 		
 	}

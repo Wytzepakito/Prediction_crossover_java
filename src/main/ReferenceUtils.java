@@ -61,7 +61,6 @@ public class ReferenceUtils {
 			e.printStackTrace();
 		}
 	    
-	    System.out.println(referenceGenomeLocation + "\\NN.bed");
 	    for (Map.Entry<String, List<List<Integer>>> chromosome : indexMap.entrySet()) {
 		    String name = chromosome.getKey();
 		    List<List<Integer>> indices = chromosome.getValue();

@@ -10,38 +10,64 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class PositiveBedPreparation {
-	String inputLocation;
+public class PositiveBedPreparation extends ReferenceUtils {
+	String generalPath;
 	Integer CROSS_OVER_SIZE;
 	
-	public PositiveBedPreparation(String inputLocation, Integer crossOverSize) {
-		this.inputLocation = inputLocation;
+	public PositiveBedPreparation(String generalPath, Integer crossOverSize) {
+		this.generalPath = generalPath;
 		this.CROSS_OVER_SIZE = crossOverSize;
-		makeBed();
+		try {
+			makeBed();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	private void makeBed() {
-		StringBuilder inputLoc =  new StringBuilder(inputLocation);
-		inputLoc.append("\\CO_location.bed");
+	private void makeBed() throws IOException {
+		StringBuilder inputLoc =  new StringBuilder(generalPath);
+		inputLoc.append("\\Input\\CO_location.bed");
+		StringBuilder outputLoc = new StringBuilder(generalPath);
+		outputLoc.append("\\Output");
 		File crossoverFile = new File(inputLoc.toString());
+		System.out.println(inputLoc.toString());
 		if (!crossoverFile.exists()) {
 			System.out.println("Crossover file is not in input folder or is not named CO_location.bed");
 		} else if (crossoverFile.exists()) {
 			Scanner positiveBedScanner = getBedFile(inputLoc.toString());
 			Map<String, List<List<Integer>>> crossoverMap = readBedFile(positiveBedScanner);
+			Map<String, List<List<Integer>>> extendedCrossoverMap = extendBedFile(crossoverMap);
+			indexMapWriter(extendedCrossoverMap, "positive.bed" , outputLoc.toString());
 		}
 		
 	}
 	
+
+	
 	
 	private Map<String, List<List<Integer>>> extendBedFile(Map<String, List<List<Integer>>> crossoverMap){
 		
-		Map<String, List<List<Integer>>>
-		for (List<List<Integer>> crossoverSites : crossoverMap.values()) {
+		Map<String, List<List<Integer>>> extendedCrossoverSites = new LinkedHashMap();
+		for (Map.Entry<String, List<List<Integer>>> entry : crossoverMap.entrySet()) {
+			List<List<Integer>> crossoverSites = entry.getValue();
+			String chromosomeName = entry.getKey();
+			List<List<Integer>> newChromosomeList = new ArrayList<List<Integer>>();
 			for (List<Integer> singleSite : crossoverSites) {
-				
+				if (singleSite.get(1)-singleSite.get(0)<2000) {
+					Integer half = (singleSite.get(1) - singleSite.get(0))/2;
+					Integer lowerbound = (singleSite.get(0) + half)-5000;
+					Integer upperbound = (singleSite.get(0) + half)+5000;
+					List<Integer> newCrossoverSite = new ArrayList<Integer>();
+					newCrossoverSite.add(lowerbound);
+					newCrossoverSite.add(upperbound);
+					
+					newChromosomeList.add(newCrossoverSite);		
+				}
 			}
-			
+			//write here
+			extendedCrossoverSites.put(chromosomeName, newChromosomeList);
 		}
+		return(extendedCrossoverSites);
 	}
 	
 	private Map<String, List<List<Integer>>> readBedFile(Scanner positiveBedScanner) {
